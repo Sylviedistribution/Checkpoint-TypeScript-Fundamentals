@@ -39,8 +39,6 @@ The objective of this checkpoint is to:
 5. Select your Slack workspace
 6. Click **Create App**
 
-📌 *(Insert screenshot here)*
-
 ---
 
 # ✅ Step 2: Configure OAuth Scopes
@@ -171,82 +169,10 @@ npm install @slack/bolt
 
 ---
 
-# ✅ Step 8: Create Environment Variables (.env)
-
-Create a `.env` file:
-```env
-SLACK_BOT_TOKEN=xoxb-your-token-here
-SLACK_SIGNING_SECRET=your-signing-secret-here
-PORT=3000
-```
-
-📌 You can find:
-
-### Bot Token
-Slack Dashboard → **OAuth & Permissions** → **Bot User OAuth Token**
-
-### Signing Secret
-Slack Dashboard → **Basic Information** → **App Credentials**
-
-⚠️ Never commit `.env` into GitHub.
-
-Add `.env` to `.gitignore`:
-```bash
-echo .env >> .gitignore
-```
-
----
-
 # ✅ Step 9: Create the Bot Script
 
 Create a file named `bot.js` (or `index.js`).
 
-## 📌 Final Code Used
-
-```js
-// Import Slack Bolt
-const { App } = require('@slack/bolt');
-
-// Initialize the app with bot token and signing secret
-const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET
-});
-
-// Slash command: /hello
-// Advanced version: mentions all channel members
-app.command('/hello', async ({ command, ack, client, say }) => {
-  await ack();
-
-  const channelId = command.channel_id;
-
-  // Get all members of the channel
-  const result = await client.conversations.members({
-    channel: channelId
-  });
-
-  const members = result.members;
-
-  // Mention every user
-  const mentions = members.map(id => `<@${id}>`).join(" ");
-
-  await say(`Hello everyone 👋 ${mentions}`);
-});
-
-// Listen to all messages and log them
-app.event('message', async ({ event }) => {
-  console.log(`Message received from ${event.user}: ${event.text}`);
-});
-
-// Start the bot
-(async () => {
-  const port = process.env.PORT || 3000;
-  await app.start(port);
-  console.log(`⚡️ Slack bot is running on port ${port}`);
-})();
-```
-
----
 
 # ✅ Step 10: Run the Bot
 
