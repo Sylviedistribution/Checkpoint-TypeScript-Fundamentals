@@ -1,4 +1,7 @@
+require('dotenv').config();
+
 // Importer Bolt
+
 const { App } = require('@slack/bolt');
 
 // Initialiser l'app avec ton token et ton signing secret
