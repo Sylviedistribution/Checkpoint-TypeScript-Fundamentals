@@ -67,8 +67,6 @@ Add the following scopes:
 
 📌 These extra scopes allow the bot to retrieve the list of members inside a channel and mention them.
 
-![OAuth Scopes Screenshot](<Screenshot 2026-04-03 020359.png>)
-
 ---
 
 # ✅ Step 3: Install the App to the Workspace
@@ -99,8 +97,6 @@ Then, under **Subscribe to Bot Events**, add:
 * `message.channels`
 
 This allows the bot to receive events whenever someone sends a message inside a public channel.
-
-📌 *(Insert screenshot here)*
 
 ---
 
@@ -140,8 +136,6 @@ Greet people
 
 Save the command.
 
-📌 *(Insert screenshot here)*
-
 ---
 
 # ✅ Step 6: Reinstall Slack App
@@ -153,8 +147,6 @@ Go to:
 **OAuth & Permissions → Reinstall to Workspace**
 
 Then authorize again.
-
-📌 *(Insert screenshot here)*
 
 ---
 
@@ -214,58 +206,7 @@ echo .env >> .gitignore
 
 ---
 
-# ✅ Step 9: Create the Bot Script
-
-Create a file named `bot.js` (or `index.js`).
-
-## 📌 Final Code Used
-
-```js
-// Import Slack Bolt
-const { App } = require('@slack/bolt');
-
-// Initialize the app with bot token and signing secret
-const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET
-});
-
-// Slash command: /hello
-// Advanced version: mentions all channel members
-app.command('/hello', async ({ command, ack, client, say }) => {
-  await ack();
-
-  const channelId = command.channel_id;
-
-  // Get all members of the channel
-  const result = await client.conversations.members({
-    channel: channelId
-  });
-
-  const members = result.members;
-
-  // Mention every user
-  const mentions = members.map(id => `<@${id}>`).join(" ");
-
-  await say(`Hello everyone 👋 ${mentions}`);
-});
-
-// Listen to all messages and log them
-app.event('message', async ({ event }) => {
-  console.log(`Message received from ${event.user}: ${event.text}`);
-});
-
-// Start the bot
-(async () => {
-  const port = process.env.PORT || 3000;
-  await app.start(port);
-  console.log(`⚡️ Slack bot is running on port ${port}`);
-})();
-```
-
----
-
-# ✅ Step 10: Run the Bot
+# ✅ Step 9: Run the Bot
 
 Start the bot:
 
@@ -281,7 +222,7 @@ Expected output:
 
 ---
 
-# ✅ Step 11: Expose Localhost Using ngrok
+# ✅ Step 10: Expose Localhost Using ngrok
 
 Slack cannot connect directly to localhost.
 Start ngrok:
@@ -295,6 +236,7 @@ ngrok will give you a public URL like:
 ```
 https://956f-41-83-161-139.ngrok-free.app
 ```
+
 
 Then update Slack dashboard:
 
@@ -312,7 +254,6 @@ https://956f-41-83-161-139.ngrok-free.app/slack/events
 
 ⚠️ ngrok URL changes every time you restart it (unless you use a paid static domain).
 
-📌 *(Insert screenshot here)*
 
 ---
 
@@ -408,6 +349,7 @@ Since Slack workspaces are private by default, the best way to prove that the bo
 
 Below is the list of recommended screenshots to include in this repository:
 
+
 ---
 
 ## 1️⃣ OAuth & Permissions (Scopes)
@@ -419,7 +361,8 @@ Below is the list of recommended screenshots to include in this repository:
 * `conversations:read`
 * `conversations.members`
 
-📷 *(Insert screenshot here)*
+![OAuth Scopes Screenshot](<screenshoots/Authorizations.png>)
+
 
 ---
 
@@ -435,6 +378,7 @@ Below is the list of recommended screenshots to include in this repository:
 * `/remindme`
 
 📷 *(Insert screenshot here)*
+![Slack commands](<screenshoots/Slack-commands.png>)
 
 ---
 
@@ -446,21 +390,11 @@ Below is the list of recommended screenshots to include in this repository:
 * Request URL validated successfully (Verified)
 * Subscribed event: `message.channels`
 
-📷 *(Insert screenshot here)*
-
 ---
 
 ## 4️⃣ ngrok Running
-
 📌 Screenshot of the terminal showing the ngrok HTTPS URL:
-
-Example:
-
-```
-https://xxxx-xx-xx-xx.ngrok-free.app
-```
-
-📷 *(Insert screenshot here)*
+![Ngrok](<screenshoots/Ngrok.png>)
 
 ---
 
@@ -470,44 +404,30 @@ https://xxxx-xx-xx-xx.ngrok-free.app
 
 * `⚡️ Slack bot is running on port 3000`
 
-📷 *(Insert screenshot here)*
-
----
-
-## 6️⃣ Bot Logs (Message Listener Working)
-
-📌 Screenshot showing the bot logging messages:
-
-Example log:
-
-```
-Message received from UXXXXXXX: Hello bot
-```
-
-📷 *(Insert screenshot here)*
-
+![Running bot](screenshoots/Running-bot.png)
 ---
 
 ## 7️⃣ Slack Channel Tests
 
 📌 Screenshot of the Slack channel showing successful command execution:
 
-* `/ping`
-* `/hello`
-* `/echo test`
-* `/remindme 5 test`
 
 📷 *(Insert screenshot here)*
+![Hello command 1](screenshoots/Hello-command-1.png)
+![Hello command 2](screenshoots/Hello-command-2.png)
 
----
+![About command 1](screenshoots/About-command-1.png)
+![About command 2](screenshoots/About-command-2.png)
 
-## 8️⃣ Bot Added to Channel
+![Echo command 1](screenshoots/Echo-command-1.png) 
+![Echo command 2](screenshoots/Echo-command-2.png)
 
-📌 Screenshot showing the bot is present inside the channel (ex: #famille)
+![Ping command 1](screenshoots/Ping-command-1.png)
+![Ping command 2](screenshoots/Ping-command-2.png)
 
-📷 *(Insert screenshot here)*
-
----
+![Remindme command 1](screenshoots/Remindme-command-1.png) 
+![Remindme command 2](screenshoots/Remindme-command-2.png)
+![Remindme command 3](screenshoots/Remindme-command-3.png) 
 
 # 📚 References
 
