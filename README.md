@@ -413,18 +413,19 @@ Below is the list of recommended screenshots to include in this repository:
 
 
 📷 *(Insert screenshot here)*
+Hello command
 ![Hello command 1](screenshoots/Hello-command-1.png)
 ![Hello command 2](screenshoots/Hello-command-2.png)
-
+About command
 ![About command 1](screenshoots/About-command-1.png)
 ![About command 2](screenshoots/About-command-2.png)
-
+Echo command
 ![Echo command 1](screenshoots/Echo-command-1.png) 
 ![Echo command 2](screenshoots/Echo-command-2.png)
-
+Ping command
 ![Ping command 1](screenshoots/Ping-command-1.png)
 ![Ping command 2](screenshoots/Ping-command-2.png)
-
+Remindme command
 ![Remindme command 1](screenshoots/Remindme-command-1.png) 
 ![Remindme command 2](screenshoots/Remindme-command-2.png)
 ![Remindme command 3](screenshoots/Remindme-command-3.png) 
