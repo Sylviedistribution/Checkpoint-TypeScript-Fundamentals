@@ -1,6 +1,7 @@
 # Slack Bot with Node.js + Slack Events API (Bolt)
 
-This project is a simple Slack bot built with **Node.js** using **Slack Bolt** and the **Slack Events API**.
+This project is a Slack bot built with **Node.js** and **TypeScript** using **Slack Bolt** and the **Slack Events API**.
+
 It listens to messages in Slack channels, logs them in the terminal, and responds to a custom slash command `/hello`.
 
 ---
@@ -12,9 +13,9 @@ The objective of this checkpoint is to:
 * Create a Slack App
 * Configure OAuth permissions (scopes)
 * Enable the Slack Events API
-* Connect the bot to Slack using Bolt
-* Respond to the `/hello` command
-* Log all messages received in a channel
+* Connect Slack to a Node.js backend using Bolt
+* Handle slash commands
+* Log messages from Slack channels
 * Expose the local server using **ngrok**
 
 ---
@@ -22,8 +23,10 @@ The objective of this checkpoint is to:
 ## 🛠️ Technologies Used
 
 * Node.js
+* TypeScript
 * Slack Bolt (`@slack/bolt`)
 * Slack API (Events API + Slash Commands)
+* dotenv
 * ngrok
 
 ---
@@ -42,8 +45,6 @@ The objective of this checkpoint is to:
 5. Select your Slack workspace
 
 6. Click **Create App**
-
-📌 *(Insert screenshot here)*
 
 ---
 
@@ -65,8 +66,10 @@ Add the following scopes:
 * `conversations:read`
 * `conversations.members`
 
-📌 These extra scopes allow the bot to retrieve the list of members inside a channel and mention them.
-
+📌 These scopes allow:
+- sending messages
+- reading channel history
+- fetching channel members
 ---
 
 # ✅ Step 3: Install the App to the Workspace
@@ -79,7 +82,6 @@ Still in **OAuth & Permissions**:
 After installation, Slack will generate a **Bot User OAuth Token** (starts with `xoxb-...`).
 
 📌 Save this token because it is required in the `.env` file.
-
 
 ---
 
@@ -150,7 +152,22 @@ Then authorize again.
 
 ---
 
-# ✅ Step 7: Setup Node.js Project
+# ✅ Step 7: TypeScript Configuration 
+
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["bot.ts"]
+}
+
+# ✅ Step 8: Setup Node.js Project
 
 Make sure Node.js is installed:
 [https://nodejs.org](https://nodejs.org)
@@ -171,12 +188,16 @@ npm init -y
 Install Slack Bolt:
 
 ```bash
-npm install @slack/bolt
+npm install @slack/bolt dotenv
 ```
 
+Install TypeScript and types.
+```bash
+npm install -D typescript ts-node @types/node
+```
 ---
 
-# ✅ Step 8: Create Environment Variables (.env)
+# ✅ Step 9: Create Environment Variables (.env)
 
 Create a `.env` file:
 
@@ -186,6 +207,16 @@ SLACK_SIGNING_SECRET=your-signing-secret-here
 PORT=3000
 ```
 
+In the bot.ts file
+
+```TypeScript
+import dotenv from "dotenv";
+dotenv.config()
+```
+
+In TypeScript, environment variables are accessed via:
+
+process.env.SLACK_BOT_TOKEN
 📌 You can find:
 
 ### Bot Token
@@ -206,13 +237,15 @@ echo .env >> .gitignore
 
 ---
 
-# ✅ Step 9: Run the Bot
+# ✅ Step 10: Run the Bot
 
 Start the bot:
 
 ```bash
-node bot.js
+npm start
 ```
+
+This runs ts-node bot.ts during development.
 
 Expected output:
 
@@ -222,7 +255,7 @@ Expected output:
 
 ---
 
-# ✅ Step 10: Expose Localhost Using ngrok
+# ✅ Step 11: Expose Localhost Using ngrok
 
 Slack cannot connect directly to localhost.
 Start ngrok:
@@ -312,7 +345,7 @@ Or manually:
 ## Slack URL verification fails
 
 **Cause:** bot is not running OR ngrok not running.
-**Fix:** Run `node bot.js` and `ngrok http 3000`, then copy the HTTPS URL into Slack.
+**Fix:** Run `npm start` and `ngrok http 3000`, then copy the HTTPS URL into Slack.
 
 ## `missing_scope` error
 
@@ -361,7 +394,7 @@ Below is the list of recommended screenshots to include in this repository:
 * `conversations:read`
 * `conversations.members`
 
-![OAuth Scopes Screenshot](<screenshoots/Authorizations.png>)
+![OAuth Scopes Screenshot](<screenshots/Authorizations.png>)
 
 
 ---
@@ -378,7 +411,7 @@ Below is the list of recommended screenshots to include in this repository:
 * `/remindme`
 
 📷 *(Insert screenshot here)*
-![Slack commands](<screenshoots/Slack-commands.png>)
+![Slack commands](<screenshots/Slack-commands.png>)
 
 ---
 
@@ -394,7 +427,7 @@ Below is the list of recommended screenshots to include in this repository:
 
 ## 4️⃣ ngrok Running
 📌 Screenshot of the terminal showing the ngrok HTTPS URL:
-![Ngrok](<screenshoots/Ngrok.png>)
+![Ngrok](<screenshots/Ngrok.png>)
 
 ---
 
@@ -404,7 +437,7 @@ Below is the list of recommended screenshots to include in this repository:
 
 * `⚡️ Slack bot is running on port 3000`
 
-![Running bot](screenshoots/Running-bot.png)
+![Running bot](screenshots/Running-bot.png)
 ---
 
 ## 7️⃣ Slack Channel Tests
@@ -414,21 +447,21 @@ Below is the list of recommended screenshots to include in this repository:
 
 📷 *(Insert screenshot here)*
 Hello command
-![Hello command 1](screenshoots/Hello-command-1.png)
-![Hello command 2](screenshoots/Hello-command-2.png)
+![Hello command 1](screenshots/Hello-command-1.png)
+![Hello command 2](screenshots/Hello-command-2.png)
 About command
-![About command 1](screenshoots/About-command-1.png)
-![About command 2](screenshoots/About-command-2.png)
+![About command 1](screenshots/About-command-1.png)
+![About command 2](screenshots/About-command-2.png)
 Echo command
-![Echo command 1](screenshoots/Echo-command-1.png) 
-![Echo command 2](screenshoots/Echo-command-2.png)
+![Echo command 1](screenshots/Echo-command-1.png) 
+![Echo command 2](screenshots/Echo-command-2.png)
 Ping command
-![Ping command 1](screenshoots/Ping-command-1.png)
-![Ping command 2](screenshoots/Ping-command-2.png)
+![Ping command 1](screenshots/Ping-command-1.png)
+![Ping command 2](screenshots/Ping-command-2.png)
 Remindme command
-![Remindme command 1](screenshoots/Remindme-command-1.png) 
-![Remindme command 2](screenshoots/Remindme-command-2.png)
-![Remindme command 3](screenshoots/Remindme-command-3.png) 
+![Remindme command 1](screenshots/Remindme-command-1.png) 
+![Remindme command 2](screenshots/Remindme-command-2.png)
+![Remindme command 3](screenshots/Remindme-command-3.png) 
 
 # 📚 References
 

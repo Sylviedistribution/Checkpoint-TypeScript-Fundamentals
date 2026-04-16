@@ -1,18 +1,20 @@
 {
   "name": "checkpoint-typescript-fundamentals",
   "version": "1.0.0",
-  "description": "",
-  "main": "bot.js",
+  "description": "This is a simple slack bot.",
   "scripts": {
-    "start": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node bot.ts"
   },
-  "keywords": [],
-  "author": "",
+  "author": "IGS",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
     "@slack/bolt": "^4.6.0",
     "dotenv": "^17.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
   }
 }

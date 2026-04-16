@@ -1,13 +1,13 @@
-require('dotenv').config();
+import dotenv from "dotenv";
+dotenv.config();
 
 // Importer Bolt
-
-const { App } = require('@slack/bolt');
+import { App } from "@slack/bolt";
 
 // Initialiser l'app avec ton token et ton signing secret
 const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,         
-  signingSecret: process.env.SLACK_SIGNING_SECRET 
+  token: process.env.SLACK_BOT_TOKEN,
+  signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
 /**
@@ -17,14 +17,12 @@ const app = new App({
 app.command('/hello', async ({ command, ack, client, say }) => {
   await ack();
 
-  const channelId = command.channel_id;
-
   const result = await client.conversations.members({
-    channel: channelId
+    channel: command.channel_id
   });
 
-  const members = result.members;
-  const mentions = members.map(id => `<@${id}>`).join(" ");
+  const members = result.members ?? [];
+  const mentions = members.map((id: string) => `<@${id}>`).join(" ");
 
   await say(`Hello à tous 👋 ${mentions}`);
 });
@@ -126,7 +124,9 @@ app.command('/remindme', async ({ command, ack, say }) => {
  * Log tous les messages envoyés dans le channel.
  */
 app.event('message', async ({ event }) => {
-  console.log(`Message reçu de ${event.user}: ${event.text}`);
+  if ('text' in event && 'user' in event) {
+    console.log(`Message reçu de ${event.user}: ${event.text}`);
+  }
 });
 
 
